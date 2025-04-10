@@ -1,0 +1,13 @@
+/Users/kipdecastro/ballistics/BallisticsLib.FSharp/obj/Debug/net9.0/BallisticsLib.FSharp.fsproj.AssemblyReference.cache
+/Users/kipdecastro/ballistics/BallisticsLib.FSharp/obj/Debug/net9.0/BallisticsLib.FSharp.AssemblyInfoInputs.cache
+/Users/kipdecastro/ballistics/BallisticsLib.FSharp/obj/Debug/net9.0/BallisticsLib.FSharp.AssemblyInfo.fs
+/Users/kipdecastro/ballistics/BallisticsLib.FSharp/obj/Debug/net9.0/BallisticsLib.FSharp.fsproj.CoreCompileInputs.cache
+/Users/kipdecastro/ballistics/BallisticsLib.FSharp/bin/Debug/net9.0/BallisticsLib.FSharp.deps.json
+/Users/kipdecastro/ballistics/BallisticsLib.FSharp/bin/Debug/net9.0/BallisticsLib.FSharp.dll
+/Users/kipdecastro/ballistics/BallisticsLib.FSharp/bin/Debug/net9.0/BallisticsLib.FSharp.pdb
+/Users/kipdecastro/ballistics/BallisticsLib.FSharp/bin/Debug/net9.0/BallisticsLib.FSharp.xml
+/Users/kipdecastro/ballistics/BallisticsLib.FSharp/obj/Debug/net9.0/BallisticsLib.FSharp.dll
+/Users/kipdecastro/ballistics/BallisticsLib.FSharp/obj/Debug/net9.0/refint/BallisticsLib.FSharp.dll
+/Users/kipdecastro/ballistics/BallisticsLib.FSharp/obj/Debug/net9.0/BallisticsLib.FSharp.xml
+/Users/kipdecastro/ballistics/BallisticsLib.FSharp/obj/Debug/net9.0/BallisticsLib.FSharp.pdb
+/Users/kipdecastro/ballistics/BallisticsLib.FSharp/obj/Debug/net9.0/ref/BallisticsLib.FSharp.dll
