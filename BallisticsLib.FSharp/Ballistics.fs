@@ -65,7 +65,7 @@ module Ballistics =
         let y1 = y + vy1 * dt
 
         //printfn $"dt: {dt} vx1: {vx1} vy1: {vy1} x1: {x1} y1: {y1}"
-        printfn $"{x1 / 3.0},{vx1},{y1 * 12.0}"
+        //printfn $"{x1 / 3.0},{vx1},{y1 * 12.0}"
 
         if x1 > target then
             y1
@@ -91,8 +91,7 @@ module Ballistics =
         let x1 = x + vx1 * dt
         let y1 = y + vy1 * dt
 
-        //printfn $"dt: {dt} vx1: {vx1} vy1: {vy1} x1: {x1} y1: {y1}"
-        printfn $"{x1 / 3.0},{vx1},{y1 * 12.0}"
+        //printfn $"{x1 / 3.0},{vx1},{y1 * 12.0}"
 
         if x1 > target then
             y1
@@ -104,9 +103,6 @@ module Ballistics =
         let impact = step x -sightHeight vx vy bc s target
 
         impact - z
-    
-
-    
 
     let step_adv2 x vx vy bc s target zero sightHeight gr cal=
         let z = step2 x -sightHeight vx vy bc s zero gr cal
@@ -119,12 +115,23 @@ module Ballistics =
     
     let moa din ryd =
         din / (1.047 * (ryd / 100.0))
-    
+
+    type BallisticResult = {
+        Range: float
+        Drop: float
+        Mils: float
+        MOA: float
+    }  
     let stepCalc x vx vy bc s target zero sightHeight =
         let drop = step_adv x vx vy bc s target zero sightHeight
         let din = drop * 12.0
         let ryd = target / 3.0
-        ryd, din, - mils din ryd, -moa din ryd
+        {
+            Range = ryd;
+            Drop = din;
+            Mils = - mils din ryd;
+            MOA = -moa din ryd;
+        }
         
     let stepMils2 x vx vy bc s target zero sightHeight gr cal=
         let drop = step_adv2 x vx vy bc s target zero sightHeight gr cal
@@ -177,6 +184,12 @@ module Ballistics =
             steps |> List.map (fun s -> stepCalc 0 v 0 bc 10 s zeroFt sightHeight) 
         
         lines
+    
+    let simpleCalc v bc zeroYd rYd =
+        let rFt = rYd * 3.0
+        let zeroFt = zeroYd * 3.0
+
+        stepCalc 0 v 0 bc 10 rFt zeroFt 0
     
     let f (s : float) =
         s.ToString("F2") 

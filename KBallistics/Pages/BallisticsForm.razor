@@ -1,0 +1,106 @@
+@page "/ballistics"
+
+@using Microsoft.AspNetCore.Components.Forms
+@using BallisticsLib.FSharp
+@using static BallisticsLib.FSharp.Ballistics
+@inject IJSRuntime JS
+
+<h2>Show</h2>
+<button @onclick="PromptPwaInstall" style="display:@(canInstall ? "block" : "none")">
+
+    📲 Install App
+</button>
+
+<h3>Ballistics Calculator</h3>
+
+<EditForm Model="@ballisticsInput" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="velocity">Velocity (fps)</label>
+        <InputNumber id="velocity" @bind-Value="ballisticsInput.Velocity" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="bc">Ballistic Coefficient (BC)</label>
+        <InputNumber id="bc" @bind-Value="ballisticsInput.BC" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="zero">Zero Distance (yards)</label>
+        <InputNumber id="zero" @bind-Value="ballisticsInput.Zero" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="target">Target Distance (yards)</label>
+        <InputNumber id="target" @bind-Value="ballisticsInput.Target" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Calculate</button>
+</EditForm>
+
+@if(result != null){
+    <div>
+        <p><strong>Range</strong>@result.Range</p>
+        <p><strong>Drop</strong>@result.Drop</p>
+        <p><strong>Mils</strong>@result.Mils</p>
+        <p><strong>MOA</strong>@result.MOA</p>
+    </div>
+}
+
+@code {
+    private BallisticsInput ballisticsInput = new();
+    private BallisticResult? result = null; 
+
+    private void HandleValidSubmit()
+    {
+        result = Ballistics.simpleCalc(ballisticsInput.Velocity, ballisticsInput.BC, ballisticsInput.Zero, ballisticsInput.Target);
+        
+        // You can call your F# logic here if it's referenced
+        Console.WriteLine($"Drop: {result}");
+
+    }
+
+    public class BallisticsInput
+    {
+        public double Velocity { get; set; }
+        public double BC { get; set; }
+        public double Zero { get; set; }
+        public double Target { get; set; }
+    }
+
+    private bool canInstall = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("eval", @"
+                window.addEventListener('pwa-install-available', () => {
+                    DotNet.invokeMethodAsync('YourAssemblyName', 'EnableInstallButton');
+                });
+            ");
+        }
+    }
+
+    [JSInvokable]
+    public static void EnableInstallButton()
+    {
+        // Use a callback or a state trigger to update your UI
+        // This is static, so either use a shared service or trigger from an event
+    }
+    private async Task PromptPwaInstall()
+    {
+        var result = await JS.InvokeAsync<string>("pwaPromptInstall");
+        if (result == "accepted")
+        {
+            Console.WriteLine("User accepted the PWA install prompt.");
+        }
+        else
+        {
+            Console.WriteLine("User dismissed the PWA install prompt.");
+        }
+    }
+
+}
