@@ -5,9 +5,7 @@
 @using static BallisticsLib.FSharp.Ballistics
 @inject IJSRuntime JS
 
-<h2>Show</h2>
 <button @onclick="PromptPwaInstall" style="display:@(canInstall ? "block" : "none")">
-
     📲 Install App
 </button>
 
@@ -41,11 +39,14 @@
 </EditForm>
 
 @if(result != null){
+    <br/>
+    <br/>
+    <br/>
     <div>
-        <p><strong>Range</strong>@result.Range</p>
-        <p><strong>Drop</strong>@result.Drop</p>
-        <p><strong>Mils</strong>@result.Mils</p>
-        <p><strong>MOA</strong>@result.MOA</p>
+        <p><strong>Range:</strong>&nbsp;@result.Range</p>
+        <p><strong>Drop:</strong> &nbsp;@result.Drop</p>
+        <p><strong>Mils:</strong> &nbsp;@result.Mils</p>
+        <p><strong>MOA:</strong>  &nbsp;@result.MOA</p>
     </div>
 }
 
@@ -57,7 +58,6 @@
     {
         result = Ballistics.simpleCalc(ballisticsInput.Velocity, ballisticsInput.BC, ballisticsInput.Zero, ballisticsInput.Target);
         
-        // You can call your F# logic here if it's referenced
         Console.WriteLine($"Drop: {result}");
 
     }
