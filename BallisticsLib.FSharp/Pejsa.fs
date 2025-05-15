@@ -22,12 +22,12 @@ module Pejsa =
     let epow pow =
         e ** pow
 
-    /// Haven't determined what this is
+    /// Haven't determined what this is but translated from the spreadsheet
     let fc bc v0 temp alt pr pr0 =
         let f_1 = f bc v0
         f_1 * (460.0 + temp) / (519.0- alt / 280.0) * epow (alt / 31654.0) * (2.0 - pr / pr0)
     
-    /// Haven't determined what this is
+    /// Haven't determined what this is but translated from the spreadsheet
     let retard_coeff = 0.5
     
     /// <summary>The solution for Pejsa</summary>

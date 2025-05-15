@@ -16,7 +16,7 @@ module Ballistics =
         let r = LUTFuncs.cd m
         match r with
         | Some x -> x
-        | None -> 0.0 // Should probably return none and handle the errror. Our table is comprehensive, so shouldn't happen
+        | None -> 0.0 // Should probably return none and handle the error. Our table is comprehensive, so shouldn't happen
     
     /// (De) Acceleration of Drag - using G7 formula I found
     let adrag v bc =
@@ -98,34 +98,37 @@ module Ballistics =
             y1
         else
             step x1 y1 vx1 vy1 bc s target
-    
+
+    /// Advanced version of the step function that incorporates sight height    
     let step_adv x vx vy bc s target zero sightHeight =
         let z = step x -sightHeight vx vy bc s zero
         let impact = step x -sightHeight vx vy bc s target
 
         impact - z
-    
 
-    
-
+    // Adv version with grains and caliber
     let step_adv2 x vx vy bc s target zero sightHeight gr cal=
         let z = step2 x -sightHeight vx vy bc s zero gr cal
         let impact = step2 x -sightHeight vx vy bc s target gr cal
 
         impact - z
     
+    // Converts a drop in inches at a given range in yards to mils
     let mils din ryd =  
         din * 27.778 / ryd
     
+    // Converts a drop in inches at a given range in yards to MOA
     let moa din ryd =
         din / (1.047 * (ryd / 100.0))
     
+    // Has a nicer output of the results of the above calc functions - suitable for CSVs
     let stepCalc x vx vy bc s target zero sightHeight =
         let drop = step_adv x vx vy bc s target zero sightHeight
         let din = drop * 12.0
         let ryd = target / 3.0
         ryd, din, - mils din ryd, -moa din ryd
         
+    // Does step but returns the drop in mils
     let stepMils2 x vx vy bc s target zero sightHeight gr cal=
         let drop = step_adv2 x vx vy bc s target zero sightHeight gr cal
         - mils (drop * 12.0) (target / 3.0)
